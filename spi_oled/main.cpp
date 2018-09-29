@@ -3,7 +3,7 @@
 
 
 #include "pch.h"
-#include "OLED.h"
+
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -46,7 +46,7 @@ int main()
 
 		// initialize OLED
 		auto oled = OLED(displayDevice, dataCommandPin, resetPin);
-		printf("OLED initialized on %ls, CS=%d DC=%d RST=%d.\n", spiHardwareId, CS_PIN, DC_PIN, RST_PIN);
+		printf("OLED initialized on %ls, CS=%d DC=%d RST=%d.\n", spiHardwareId, CS, DC_PIN, RST_PIN);
 
 		// load bitmap and draw it on the OLED.
 		wchar_t currentDir[MAX_PATH];

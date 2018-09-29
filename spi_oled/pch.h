@@ -15,3 +15,4 @@
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.Storage.Streams.h>
 #include <winrt/Windows.Devices.Enumeration.h>
+#include "OLED.h"
