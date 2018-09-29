@@ -17,9 +17,9 @@ int main()
 	setlocale(LC_CTYPE, "");
 
 	try {
-		const int32_t RST_PIN = 23;
-		const int32_t DC_PIN = 22;
-		const int32_t CS_PIN = 0;
+		const int32_t RST_PIN = 23; // pin16
+		const int32_t DC_PIN = 22;  // pin15
+		const int32_t CS = 0;       // pin24
 
 		// SP10 or SPI1 on Raspberry Pi
 		const wchar_t *spiHardwareId = L"SPI0";
@@ -30,8 +30,8 @@ int main()
 		// Find the SPI bus controller devices with our selector string
 		auto deviceInfo = DeviceInformation::FindAllAsync(spi).get();
 
-		// Use CS_PIN, 10Mhz Mode 3
-		auto connSettings = SpiConnectionSettings(CS_PIN);
+		// Use chipselect line CS, 10Mhz Mode 3
+		auto connSettings = SpiConnectionSettings(CS);
 		connSettings.ClockFrequency(10000000);
 		connSettings.Mode(SpiMode::Mode3);
 

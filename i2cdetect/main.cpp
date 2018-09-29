@@ -19,18 +19,23 @@ int main()
 		printf("Searching I2C devices...\n");
 		printf("     ");
 
+		// table header
 		for (int32_t j = 0x0; j <= 0xF; j++) printf("%02x ", j);
 		
+		// table body
 		for (int32_t i = 0x00; i <= 0x70; i += 0x10) {
 			printf("\n0x%02x ", i);
 			for (int32_t j = 0x0; j <= 0xF; j++) {
 				int32_t address = i | j;
+
+				// current supported range: 0x08-0x77
 				if (address < 0x08) {
 					wprintf(L"   ");  
 					continue;
 				}
 				if (address > 0x77) break;
 
+				// try to read one byte from device
 				try {
 					I2cConnectionSettings connSettings = I2cConnectionSettings(address);
 					I2cDevice device = controller.GetDevice(connSettings);
@@ -39,10 +44,12 @@ int main()
 					device.Close();
 				}
 				catch (hresult_error const & ex) {
+					// failed
 					printf("-- ");
 					continue;
 				}
 
+				// success
 				printf("%02x ", address);
 			}
 		}
