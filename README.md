@@ -7,9 +7,9 @@ These are all console apps, and should work in both IoT Core ARM32 and Desktop A
 ## Build
 You'll need the following prerequisites:
 
-- Visual Studio 2017
+- Visual Studio 2019
 - C/C++ ARM Support
-- Windows 10 SDK 17134+ & C++/WinRT
+- Windows 10 SDK 17763+
 
 Then you can build them in Visual Studio.
 
