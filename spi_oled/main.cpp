@@ -45,7 +45,7 @@ int main()
 		auto resetPin = gpioController.OpenPin(RST_PIN);
 
 		// initialize OLED
-		auto oled = OLED(displayDevice, dataCommandPin, resetPin);
+		auto oled = OLED(nullptr, dataCommandPin, resetPin);
 		printf("OLED initialized on %ls, CS=%d DC=%d RST=%d.\n", spiHardwareId, CS, DC_PIN, RST_PIN);
 
 		// load bitmap and draw it on the OLED.

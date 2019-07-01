@@ -7,8 +7,9 @@
 
 #define NOMINMAX
 
-
+#include <Windows.h>
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Devices.Spi.h>
 #include <winrt/Windows.Devices.Gpio.h>
 #include <winrt/Windows.Graphics.Imaging.h>
