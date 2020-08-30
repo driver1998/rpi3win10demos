@@ -33,7 +33,7 @@ private:
 
 	// memory clone of the display buffer
 	// 128px * 8 pages, each page is 1 pixel wide, 8 pixels tall.
-	uint8_t displayBuffer[SCREEN_WIDTH * SCREEN_HEIGHT_PAGES];
+	std::vector<uint8_t> buffer;
 
 	// display init
 	void init();
@@ -49,13 +49,12 @@ public:
 	void reset();
 
 	// send command to the display
-	void sendCommand(const std::vector<uint8_t> command);
+	void sendCommand(const std::vector<uint8_t> &command);
 
 	// send data to the display
-	void sendData(const std::vector<uint8_t> data);
+	void sendData(const std::vector<uint8_t> &data);
 
-	// send a bitmap to the display
-	// which needs to be 128x64 RGBA8 bitmap
-	void sendBitmap(BitmapFrame bitmap);
+	// update the screen buffer with a 128x64 RGBA8 bitmap
+	void updateBuffer(const BitmapFrame &bitmap);
 };
 

@@ -1,14 +1,26 @@
 #include "pch.h"
+#include "OLED.h"
 
 
+using namespace winrt::Windows::Devices::Spi;
+using namespace winrt::Windows::Devices::Gpio;
+using namespace winrt::Windows::Graphics::Imaging;
 
 
 OLED::OLED(SpiDevice device, GpioPin dataCommandPin, GpioPin resetPin)
 {
-	if (device == nullptr || dataCommandPin == nullptr || resetPin == nullptr) throw;
+	if (device == nullptr)
+		throw std::runtime_error("device is null");
+	if (dataCommandPin == nullptr)
+		throw std::runtime_error("dataCommandPin is null");
+	if (dataCommandPin == nullptr)
+		throw std::runtime_error("resetPin is null");
+
 	this->displayDevice = device;
 	this->dataCommandPin = dataCommandPin;
 	this->resetPin = resetPin;
+	this->buffer = std::vector<uint8_t>(SCREEN_WIDTH * SCREEN_HEIGHT_PAGES);
+
 	init();
 }
 
@@ -38,20 +50,22 @@ void OLED::reset()
 	Sleep(100);
 }
 
-void OLED::sendCommand(const std::vector<uint8_t> command)
+void OLED::sendCommand(const std::vector<uint8_t> &command)
 {
 	dataCommandPin.Write(GpioPinValue::Low);
 	displayDevice.Write(command);
 }
-void OLED::sendData(const std::vector<uint8_t> data)
+void OLED::sendData(const std::vector<uint8_t> &data)
 {
 	dataCommandPin.Write(GpioPinValue::High);
 	displayDevice.Write(data);
 }
 
-void OLED::sendBitmap(BitmapFrame bitmap) 
-{	
-	if (bitmap.BitmapPixelFormat() != BitmapPixelFormat::Rgba8) throw;
+void OLED::updateBuffer(const BitmapFrame &bitmap)
+{
+	if (bitmap.BitmapPixelFormat() != BitmapPixelFormat::Rgba8 
+		&& bitmap.BitmapPixelFormat() != BitmapPixelFormat::Bgra8)
+		throw std::runtime_error("Invalid pixel format, only RGBA8 and BGRA8 is supported");
 
 	uint32_t height = bitmap.PixelHeight();
 	uint32_t width = bitmap.PixelWidth();
@@ -63,17 +77,18 @@ void OLED::sendBitmap(BitmapFrame bitmap)
 
 	// copy the pixel data to display buffer
 	// refer to datasheet for arrangement
-	for (uint32_t i = 0; i < SCREEN_HEIGHT_PAGES; i++) {
-		for (uint32_t j = 0; j < SCREEN_WIDTH; j++) {
+	for (int i = 0; i < SCREEN_HEIGHT_PAGES; i++) {
+		for (int j = 0; j < SCREEN_WIDTH; j++) {
 			uint8_t block = 0;
-			for (uint32_t k = 0; k < 8; k++) {
-				// convert RGBA bitmap to monochrome
-				// R>127  : 1
-				// R<=127 : 0
-				uint8_t newBit = (pixels[((i * 8 + k) * SCREEN_WIDTH + j) * 4] > 127) << 7;
+			for (int k = 0; k < 8; k++) {
+				
+				int p = ((i * 8 + k) * SCREEN_WIDTH + j) * 4;
+				uint8_t G = pixels[p + 1];
+
+				uint8_t newBit = (G > 127) << 7;
 				block = (block >> 1) | newBit;
 			}
-			displayBuffer[i*SCREEN_WIDTH + j] = block;
+			buffer[i * SCREEN_WIDTH + j] = block;
 		}
 	}
 
@@ -84,7 +99,5 @@ void OLED::refresh()
 {
 	sendCommand(CMD_RESETCOLADDR);
 	sendCommand(CMD_RESETPAGEADDR);
-	std::vector<uint8_t> buffer
-		(displayBuffer, displayBuffer + sizeof(displayBuffer) / sizeof(uint8_t));
 	sendData(buffer);
 }

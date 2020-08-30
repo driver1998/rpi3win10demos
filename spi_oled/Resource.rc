@@ -1,0 +1,3 @@
+#include "resource.h"
+
+IDB_LOGO IMAGE "logo.png"
