@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hwmon", "hwmon\hwmon.vcxproj", "{4A8C24DD-C156-4607-9054-B8D43A541421}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "spi_oled", "spi_oled\spi_oled.vcxproj", "{2C9B6F7A-73C3-4E20-BCDA-696014FC7D08}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "i2cdetect", "i2cdetect\i2cdetect.vcxproj", "{E806BFCB-78F8-40D5-ADD8-206F2301A129}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "i2c1602", "i2c1602\i2c1602.vcxproj", "{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,22 @@ Global
 		{E806BFCB-78F8-40D5-ADD8-206F2301A129}.Release|x64.Build.0 = Release|x64
 		{E806BFCB-78F8-40D5-ADD8-206F2301A129}.Release|x86.ActiveCfg = Release|Win32
 		{E806BFCB-78F8-40D5-ADD8-206F2301A129}.Release|x86.Build.0 = Release|Win32
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Debug|ARM.ActiveCfg = Debug|ARM
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Debug|ARM.Build.0 = Debug|ARM
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Debug|ARM64.Build.0 = Debug|ARM64
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Debug|x64.ActiveCfg = Debug|x64
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Debug|x64.Build.0 = Debug|x64
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Debug|x86.ActiveCfg = Debug|Win32
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Debug|x86.Build.0 = Debug|Win32
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Release|ARM.ActiveCfg = Release|ARM
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Release|ARM.Build.0 = Release|ARM
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Release|ARM64.ActiveCfg = Release|ARM64
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Release|ARM64.Build.0 = Release|ARM64
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Release|x64.ActiveCfg = Release|x64
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Release|x64.Build.0 = Release|x64
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Release|x86.ActiveCfg = Release|Win32
+		{97CF632B-2D22-4DEE-92B3-C9A8FF70AAA8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
