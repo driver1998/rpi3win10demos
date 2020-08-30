@@ -1,7 +1,6 @@
-﻿// main.cpp : Defines the entry point for the console application.
-//
-
-#include "pch.h"
+﻿#include "pch.h"
+#include <clocale>
+#include <vector>
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -15,51 +14,41 @@ int main()
 
 	try {
 		I2cController controller = I2cController::GetDefaultAsync().get();
-		
+
 		printf("Searching I2C devices...\n");
-		printf("     ");
+		printf("     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F");
 
-		// table header
-		for (int32_t j = 0x0; j <= 0xF; j++) printf("%02x ", j);
-		
-		// table body
-		for (int32_t i = 0x00; i <= 0x70; i += 0x10) {
-			printf("\n0x%02x ", i);
-			for (int32_t j = 0x0; j <= 0xF; j++) {
-				int32_t address = i | j;
+		for (int i = 0x00; i <= 0x70; i += 0x10) {
+			printf("\n%02x: ", i);
+			for (int j = 0x0; j <= 0xF; j++) {
+				int address = i | j;
 
-				// current supported range: 0x08-0x77
-				if (address < 0x08) {
-					wprintf(L"   ");  
+				// Current supported range: 0x08-0x77
+				if (address < 0x08 || address > 0x77) {
+					printf("   ");  
 					continue;
 				}
-				if (address > 0x77) break;
 
-				// try to read one byte from device
+				I2cConnectionSettings connSettings(address);
+				I2cDevice device = controller.GetDevice(connSettings);
+				std::vector<uint8_t> buff(1);
+
+				// Try to read one byte from device
 				try {
-					I2cConnectionSettings connSettings = I2cConnectionSettings(address);
-					I2cDevice device = controller.GetDevice(connSettings);
-					std::vector<uint8_t> buff = std::vector(1, (uint8_t)0);
 					device.Read(buff);
-					device.Close();
+					printf("%02x ", address);
 				}
 				catch (hresult_error const & ex) {
-					// failed
+					UNREFERENCED_PARAMETER(ex);
 					printf("-- ");
-					continue;
 				}
 
-				// success
-				printf("%02x ", address);
+				device.Close();
 			}
 		}
 		printf("\n");
 	}
 	catch (hresult_error const & ex) {
-		HRESULT hr = ex.to_abi();
-		winrt::hstring message = ex.message();
-		wprintf(L"%lx\n%ws\n", hr, message.c_str());
+		wprintf(L"%lx\n%ws\n", ex.to_abi().value, ex.message().c_str());
 	}
-
-
 }
