@@ -1,6 +1,6 @@
 # i2cdetect for Windows 10
 
-This is a simple little tool that detects all your devices on the I2C bus.
+This is a simple little tool that detects all your devices on the I2C bus, inspired by the tool on Linux.
 
 It tries to read one byte from every device on address 0x08 - 0x77. When it succeed, it assumes that a device is available, and when it failed, it assumes that there is no device there.
 
@@ -11,13 +11,13 @@ It display the info in a nice little grid:
 - a hexdecimal address like "3A" means there is a device in 0x3A.
 
 ```
-      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-0x00                          -- -- -- -- -- -- -- --
-0x10  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-0x20  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-0x30  -- -- -- -- -- -- -- -- -- -- 3A -- -- -- -- --
-0x40  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-0x50  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-0x60  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-0x70  -- -- -- -- -- -- -- --
+     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F
+00:                         -- -- -- -- -- -- -- --
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- -- -- -- -- 3A -- -- -- -- --
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+70: -- -- -- -- -- -- -- --
 ```

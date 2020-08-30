@@ -16,6 +16,15 @@ Then you can build them in Visual Studio.
 ## Contents
 For detailed information, check out README.md in the sub-directories.
 
-- `hwmon` A simple tool to check system temperature, clock speeds and voltages, based on the RPIQ driver.
-- `spi_oled` Display the Windows on Raspberry logo on a SSD1306 based 128x64 OLED display.
-- `i2cdetect` Inspired from the Linux tool with the same name, which detects all devices on the I2C bus. 
+### hwmon
+A simple tool to check system temperature, clock speeds and voltages, based on the RPIQ driver.
+
+### i2c1602
+Shows a digital clock on a 1602 character LCD, connected over I2C.
+
+### i2cdetect
+Inspired from the Linux tool with the same name, which detects all devices on the I2C bus. 
+
+### spi_oled
+Display the Windows on Raspberry logo on a SSD1306 based 128x64 OLED display.
+
