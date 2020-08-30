@@ -14,6 +14,7 @@ int main()
 
 	try {
 		I2cController controller = I2cController::GetDefaultAsync().get();
+		if (controller == nullptr) throw std::runtime_error("I2C controller not found");
 
 		printf("Searching I2C devices...\n");
 		printf("     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F");
@@ -49,6 +50,9 @@ int main()
 		printf("\n");
 	}
 	catch (hresult_error const & ex) {
-		wprintf(L"%lx\n%ws\n", ex.to_abi().value, ex.message().c_str());
+		wprintf(L"%08X %ws\n", ex.to_abi().value, ex.message().c_str());
+	}
+	catch (std::runtime_error const& ex) {
+		puts(ex.what());
 	}
 }

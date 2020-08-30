@@ -26,13 +26,14 @@ int main()
 		const int32_t CS = 0;       // pin24
 
 		// SP10 on Raspberry Pi
-		const wchar_t *spiHardwareId = L"SPI0";
+		const wchar_t* spiHardwareId = L"SPI0";
 
 		// Get a selector string that will return our wanted SPI controller
 		auto spi = SpiDevice::GetDeviceSelector(spiHardwareId);
 
 		// Find the SPI bus controller devices with our selector string
 		auto deviceInfo = DeviceInformation::FindAllAsync(spi).get();
+		if (deviceInfo.Size() == 0) throw std::runtime_error("SPI controller not found");
 
 		// Use chipselect line CS, 10Mhz Mode 3
 		auto connSettings = SpiConnectionSettings(CS);
@@ -45,14 +46,14 @@ int main()
 		// Get the default GPIO controller
 		// and open other necessary pins
 		auto gpioController = GpioController::GetDefaultAsync().get();
+		if (gpioController == nullptr) throw std::runtime_error("GPIO controller not found");
 		auto dataCommandPin = gpioController.OpenPin(DC_PIN);
 		auto resetPin = gpioController.OpenPin(RST_PIN);
 
 		// Initialize OLED
 		auto oled = OLED(displayDevice, dataCommandPin, resetPin);
-		std::wcout << L"OLED initialized on " << spiHardwareId << L" CS=" << CS;
-		std::wcout << L" DC=" << DC_PIN << L" RST=" << RST_PIN << std::endl;
-
+		wprintf(L"OLED initialized on %ws, CS=%d, DC=%d, RST=%d\n", spiHardwareId, CS, DC_PIN, RST_PIN);
+		
 		// Load logo from resources
 		HINSTANCE hInstance = GetModuleHandle(NULL);
 		HRSRC hResInfo = FindResource(hInstance, MAKEINTRESOURCEW(IDB_LOGO), L"IMAGE");
@@ -78,19 +79,18 @@ int main()
 		auto decoder = BitmapDecoder::CreateAsync(stream).get();
 
 		// Show the image
-		std::cout << "Rendering Logo Image..." << std::endl;
+		puts("Rendering Logo Image...");
 		auto frame = decoder.GetFrameAsync(0).get();
 		oled.updateBuffer(frame);
-		
+
 		// Pause so that the image will stay on screen
 		system("pause");
 	}
-	catch (std::runtime_error const& ex) {
-		std::cout << ex.what() << std::endl;
-	}
 	catch (hresult_error const & ex) {
-		std::wcout << std::hex << ex.to_abi().value << " ";
-		std::wcout << std::wstring(ex.message().c_str()) << std::endl;
+		wprintf(L"%08X %ws\n", ex.to_abi().value, ex.message().c_str());
+	}
+	catch (std::runtime_error const& ex) {
+		puts(ex.what());
 	}
 
 }
