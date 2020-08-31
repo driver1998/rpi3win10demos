@@ -31,7 +31,7 @@ int main()
 			tm ti;
 			localtime_s(&ti, &t);
 
-			sprintf_s(s, "%04d-%02d-%02d %s", ti.tm_year + 1900, ti.tm_mon, ti.tm_mday, weekdays[ti.tm_wday]);
+			sprintf_s(s, "%04d-%02d-%02d %s", ti.tm_year + 1900, ti.tm_mon + 1, ti.tm_mday, weekdays[ti.tm_wday]);
 			lcd1602.setCursor(1, 0);
 			lcd1602.print(s);
 
